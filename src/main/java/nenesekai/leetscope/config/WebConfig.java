@@ -1,10 +1,10 @@
-package usc.edu.csci201.leetscope.config;
+package nenesekai.leetscope.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import usc.edu.csci201.leetscope.intercepter.JwtIntercepter;
+import nenesekai.leetscope.intercepter.JwtIntercepter;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {

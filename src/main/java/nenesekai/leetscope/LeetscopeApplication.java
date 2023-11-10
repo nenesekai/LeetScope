@@ -1,4 +1,4 @@
-package usc.edu.csci201.leetscope;
+package nenesekai.leetscope;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

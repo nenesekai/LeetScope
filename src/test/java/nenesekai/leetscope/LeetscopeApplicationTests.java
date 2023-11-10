@@ -1,4 +1,4 @@
-package usc.edu.csci201.leetscope;
+package nenesekai.leetscope;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

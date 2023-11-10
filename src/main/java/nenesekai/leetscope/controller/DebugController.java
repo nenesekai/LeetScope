@@ -1,13 +1,13 @@
-package usc.edu.csci201.leetscope.controller;
+package nenesekai.leetscope.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import usc.edu.csci201.leetscope.entity.User;
-import usc.edu.csci201.leetscope.model.Result;
-import usc.edu.csci201.leetscope.service.UserService;
+import nenesekai.leetscope.entity.User;
+import nenesekai.leetscope.model.Result;
+import nenesekai.leetscope.service.UserService;
 
 @RestController
 @RequestMapping("/debug")

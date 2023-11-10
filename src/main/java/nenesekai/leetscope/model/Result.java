@@ -1,4 +1,4 @@
-package usc.edu.csci201.leetscope.model;
+package nenesekai.leetscope.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

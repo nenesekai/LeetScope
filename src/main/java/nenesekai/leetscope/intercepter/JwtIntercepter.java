@@ -1,12 +1,12 @@
-package usc.edu.csci201.leetscope.intercepter;
+package nenesekai.leetscope.intercepter;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import nenesekai.leetscope.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import usc.edu.csci201.leetscope.service.UserService;
-import usc.edu.csci201.leetscope.util.JwtUtil;
+import nenesekai.leetscope.util.JwtUtil;
 
 import java.io.IOException;
 

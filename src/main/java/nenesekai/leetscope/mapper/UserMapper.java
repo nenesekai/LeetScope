@@ -1,9 +1,9 @@
-package usc.edu.csci201.leetscope.mapper;
+package nenesekai.leetscope.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-import usc.edu.csci201.leetscope.entity.User;
+import nenesekai.leetscope.entity.User;
 
 import java.util.List;
 

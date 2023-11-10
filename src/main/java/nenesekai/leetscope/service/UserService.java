@@ -1,8 +1,8 @@
-package usc.edu.csci201.leetscope.service;
+package nenesekai.leetscope.service;
 
 import org.springframework.stereotype.Service;
-import usc.edu.csci201.leetscope.entity.User;
-import usc.edu.csci201.leetscope.model.Result;
+import nenesekai.leetscope.entity.User;
+import nenesekai.leetscope.model.Result;
 
 @Service
 public interface UserService {

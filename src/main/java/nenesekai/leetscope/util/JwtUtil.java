@@ -1,4 +1,4 @@
-package usc.edu.csci201.leetscope.util;
+package nenesekai.leetscope.util;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

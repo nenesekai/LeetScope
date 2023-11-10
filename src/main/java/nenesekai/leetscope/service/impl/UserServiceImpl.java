@@ -1,15 +1,15 @@
-package usc.edu.csci201.leetscope.service.impl;
+package nenesekai.leetscope.service.impl;
 
+import nenesekai.leetscope.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
-import usc.edu.csci201.leetscope.entity.User;
-import usc.edu.csci201.leetscope.mapper.UserMapper;
-import usc.edu.csci201.leetscope.model.Result;
-import usc.edu.csci201.leetscope.service.UserService;
-import usc.edu.csci201.leetscope.util.JwtUtil;
+import nenesekai.leetscope.entity.User;
+import nenesekai.leetscope.mapper.UserMapper;
+import nenesekai.leetscope.model.Result;
+import nenesekai.leetscope.util.JwtUtil;
 
 import java.util.List;
 

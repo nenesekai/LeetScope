@@ -1,4 +1,4 @@
-package usc.edu.csci201.leetscope.entity;
+package nenesekai.leetscope.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
