@@ -37,12 +37,21 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public Result<Assignment> updateAssignment(Assignment assignment) {
-        // TODO
-        return null;
+        if (assignmentMapper.selectById(assignment.getId()) == null) {
+            return new Result("INVALID_ASSIGNMENT_ID", "Invalid Assignment ID!", null);
+        }
+        assignmentMapper.updateById(assignment);
+        return Result.success(assignmentMapper.selectById(assignment.getId()));
     }
 
     @Override
     public Result<List<Assignment>> listAllAssignments() {
         return Result.success(assignmentMapper.listAllAssignments());
+    }
+
+    @Override
+    public Result<Void> deleteAssignment(Long id) {
+        assignmentMapper.deleteById(id);
+        return Result.success("Assignment Deleted");
     }
 }

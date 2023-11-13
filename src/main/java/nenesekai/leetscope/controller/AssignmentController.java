@@ -21,8 +21,18 @@ public class AssignmentController {
         return assignmentService.createAssignment(assignment);
     }
 
-    @GetMapping("listAll")
+    @GetMapping("/listAll")
     public Result<List<Assignment>> listAllAssignments() {
         return assignmentService.listAllAssignments();
+    }
+
+    @PostMapping("/update")
+    public Result<Assignment> updateAssignment(@RequestBody() Assignment assignment) {
+        return assignmentService.updateAssignment(assignment);
+    }
+
+    @DeleteMapping("/delete")
+    public Result<Void> deleteAssignment(@RequestParam(name = "id") Long id) {
+        return assignmentService.deleteAssignment(id);
     }
 }

@@ -13,4 +13,6 @@ public interface AssignmentService {
     public Result<Assignment> updateAssignment(Assignment assignment);
 
     public Result<List<Assignment>> listAllAssignments();
+
+    public Result<Void> deleteAssignment(Long id);
 }
