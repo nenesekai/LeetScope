@@ -10,6 +10,11 @@ spring:
       mode: always
       schema-locations: classpath:database/schema-mysql.sql
 
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
 mybatis-plus:
   configuration:
     cache-enabled: true
