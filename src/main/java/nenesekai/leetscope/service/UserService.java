@@ -14,9 +14,9 @@ public interface UserService {
 
     public Boolean isValidUserId(Long uid);
 
-    public Boolean isStudent(Long uid);
-
     public Boolean isTeacher(Long uid);
+
+    public Boolean isStudent(Long uid);
 
     public Result<User> getUserById(Long uid);
 

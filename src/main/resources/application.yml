@@ -3,7 +3,7 @@ spring:
     url: jdbc:mysql://localhost:3306/leetscope?useSSL=false&autoReconnect=true&characterEncoding=utf8
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: password
+    password: root
 
   sql:
     init:
@@ -16,3 +16,7 @@ mybatis-plus:
     use-generated-keys: true
     default-executor-type: REUSE
     use-actual-param-name: true
+
+server:
+  tomcat:
+    max-http-form-post-size: 20MB
