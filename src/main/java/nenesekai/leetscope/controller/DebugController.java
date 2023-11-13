@@ -16,7 +16,14 @@ public class DebugController {
     UserService userService;
 
     @GetMapping("/getUser")
-    public Result<User> getUser(@RequestParam(name = "id", required = true) Long uid) {
-        return userService.getUserById(uid);
+    public Result getUser(@RequestParam(name = "id", required = false) Long uid,
+                                @RequestParam(name = "name", required = false) String name) {
+        if (uid != null) {
+            return userService.getUserById(uid);
+        } else if (name != null) {
+            return userService.listUsersByName(name);
+        } else {
+            return new Result("INVALID_REQUEST", "Parameters cannot be all blank", null);
+        }
     }
 }

@@ -25,7 +25,7 @@ public class JwtIntercepter implements HandlerInterceptor {
         String token = authorization.replace("Bearer ", "");
         try {
             Long uid = Long.valueOf(JwtUtil.parseToken(token));
-            if (userService.isValidUserID(uid)) {
+            if (userService.isValidUserId(uid)) {
                 request.setAttribute("uid", uid);
                 return true;
             } else {

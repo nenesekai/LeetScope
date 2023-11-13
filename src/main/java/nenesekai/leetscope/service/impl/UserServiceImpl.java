@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
-    public Boolean isValidUserID(Long uid) {
+    public Boolean isValidUserId(Long uid) {
         return userMapper.selectById(uid) != null;
     }
 
@@ -61,6 +61,16 @@ public class UserServiceImpl implements UserService {
             return new Result<>("USER_NOT_FOUND", "User Not Found", null);
         } else {
             return Result.success(user);
+        }
+    }
+
+    @Override
+    public Result<List<User>> listUsersByName(String name) {
+        List<User> userList = userMapper.listUserByName(name);
+        if (userList.isEmpty()) {
+            return new Result<>("USER_NOT_FOUND", "User Not Found!", null);
+        } else {
+            return Result.success(userList);
         }
     }
 }
