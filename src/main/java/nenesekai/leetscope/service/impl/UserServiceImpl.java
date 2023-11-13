@@ -73,4 +73,16 @@ public class UserServiceImpl implements UserService {
             return Result.success(userList);
         }
     }
+
+    @Override
+    public Boolean isStudent(Long uid) {
+        User user = userMapper.selectById(uid);
+        return user != null && user.getIsStudent();
+    }
+
+    @Override
+    public Boolean isTeacher(Long uid) {
+        User user = userMapper.selectById(uid);
+        return user != null && user.getIsTeacher();
+    }
 }

@@ -3,15 +3,15 @@ package nenesekai.leetscope.intercepter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import nenesekai.leetscope.service.UserService;
+import nenesekai.leetscope.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import nenesekai.leetscope.util.JwtUtil;
 
 import java.io.IOException;
 
 @Component
-public class JwtIntercepter implements HandlerInterceptor {
+public class StudentInterceptor implements HandlerInterceptor {
     @Autowired
     UserService userService;
 
@@ -25,7 +25,7 @@ public class JwtIntercepter implements HandlerInterceptor {
         String token = authorization.replace("Bearer ", "");
         try {
             Long uid = Long.valueOf(JwtUtil.parseToken(token));
-            if (userService.isValidUserId(uid)) {
+            if (userService.isStudent(uid)) {
                 request.setAttribute("uid", uid);
                 return true;
             } else {
