@@ -1,4 +1,5 @@
 drop table if exists `submission`;
+drop table if exists `test_case`;
 drop table if exists `assignment`;
 drop table if exists `user`;
 
@@ -21,6 +22,15 @@ create table `assignment` (
     allowed_attempts int default 1,
     primary key(id),
     foreign key(uid) references user(id)
+);
+
+create table `test_case` (
+    id bigint not null auto_increment,
+    assignment_id bigint not null,
+    input_file_name varchar(255),
+    output_file_name varchar(255),
+    primary key(id),
+    foreign key(assignment_id) references assignment(id)
 );
 
 create table `submission` (
