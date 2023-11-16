@@ -47,8 +47,9 @@ public class FileUploadController {
 
         Resource file = storageService.loadAsResource(filename);
 
-        if (file == null)
+        if (file == null) {
             return ResponseEntity.notFound().build();
+        }
 
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);

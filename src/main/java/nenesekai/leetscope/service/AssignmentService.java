@@ -4,15 +4,13 @@ import nenesekai.leetscope.entity.Assignment;
 import org.springframework.stereotype.Service;
 import nenesekai.leetscope.model.Result;
 
-import java.util.List;
-
 @Service
 public interface AssignmentService {
-    public Result<Assignment> createAssignment(Assignment assignment);
+    Result createAssignment(Assignment assignment);
 
-    public Result<Assignment> updateAssignment(Assignment assignment);
+    Result updateAssignment(Assignment assignment);
 
-    public Result<List<Assignment>> listAllAssignments();
+    Result listAllAssignments();
 
-    public Result<Void> deleteAssignment(Long id);
+    Result deleteAssignment(Long id);
 }

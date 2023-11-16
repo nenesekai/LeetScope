@@ -15,7 +15,7 @@ public class TestCaseController {
     @Autowired
     TestCaseService testCaseService;
     @PostMapping("/create")
-    public Result<TestCase> createTestCase(@RequestBody() TestCase testCase) {
+    public Result createTestCase(@RequestBody() TestCase testCase) {
         return  testCaseService.createTestCase(testCase);
     }
 }

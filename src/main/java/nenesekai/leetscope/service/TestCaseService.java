@@ -6,5 +6,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface TestCaseService {
-    public Result<TestCase> createTestCase(TestCase testCase);
+    Result createTestCase(TestCase testCase);
 }

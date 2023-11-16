@@ -1,5 +1,6 @@
 package nenesekai.leetscope.controller;
 
+import jakarta.annotation.Resource;
 import nenesekai.leetscope.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,16 +10,11 @@ import nenesekai.leetscope.model.Result;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    @Autowired
+    @Resource
     UserService userService;
 
-    @PostMapping("/registerLegacy")
-    public Result<Void> registerLegacy(@RequestBody() User user) {
-        return userService.register(user);
-    }
-
     @PostMapping("/register")
-    public Result<Void> register(
+    public Result register(
             @RequestParam("name") String name,
             @RequestParam("password") String password,
             @RequestParam(value = "isTeacher", required = false) Boolean isTeacher,
@@ -32,13 +28,8 @@ public class UserController {
         return userService.register(user);
     }
 
-    @PostMapping("/loginLegacy")
-    public Result<String> loginLegacy(@RequestBody() User user) {
-        return userService.login(user);
-    }
-
     @PostMapping("/login")
-    public Result<String> login(
+    public Result login(
             @RequestParam("name") String name,
             @RequestParam("password") String password
     ) {

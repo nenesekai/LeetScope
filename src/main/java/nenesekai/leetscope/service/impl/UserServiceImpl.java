@@ -1,5 +1,8 @@
 package nenesekai.leetscope.service.impl;
 
+import nenesekai.leetscope.model.DataResult;
+import nenesekai.leetscope.model.LoginResult;
+import nenesekai.leetscope.model.NoDataResult;
 import nenesekai.leetscope.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,51 +29,51 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result<Void> register(User user) {
+    public Result register(User user) {
         // Check if there are required things like username or password
         if (user.getName() == null || user.getPassword() == null) {
-            return new Result<>("INVALID_REGISTER_REQUEST", "Username and Password are both required!", null);
+            return NoDataResult.failed("INVALID_REGISTER_REQUEST", "Username and Password are both required!");
         }
         // Check if there are duplicated username
         List<User> userList = userMapper.listUserByName(user.getName());
         if (!userList.isEmpty()) {
-            return new Result<>("INVALID_REGISTER_REQUEST", "Username already token!", null);
+            return NoDataResult.failed("INVALID_REGISTER_REQUEST", "Username already token!");
         }
         user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
         userMapper.insert(user);
-        return Result.success("Successfully registered user!");
+        return NoDataResult.success("Successfully registered user!");
     }
 
     @Override
-    public Result<String> login(User user) {
+    public Result login(User user) {
         if (user.getName() == null || user.getPassword() == null) {
-            return new Result<>("INVALID_LOGIN_REQUEST", "Username and Password cannot be blank!", null);
+            return NoDataResult.failed("INVALID_LOGIN_REQUEST", "Username and Password cannot be blank!");
         }
         List<User> userList = userMapper.listUserByName(user.getName());
         if (userList.isEmpty() || !userList.get(0).getPassword().equals(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()))) {
-            return new Result<>("INVALID_LOGIN_REQUEST", "Invalid Usernamd or Password", null);
+            return NoDataResult.failed("INVALID_LOGIN_REQUEST", "Invalid Usernamd or Password");
         }
         String token = JwtUtil.generateToken(String.valueOf(userList.get(0).getId()));
-        return Result.success("Successfully Login", token);
+        return LoginResult.success(token);
     }
 
     @Override
-    public Result<User> getUserById(Long uid) {
+    public Result getUserById(Long uid) {
         User user = userMapper.selectById(uid);
         if (user == null) {
-            return new Result<>("USER_NOT_FOUND", "User Not Found", null);
+            return NoDataResult.failed("USER_NOT_FOUND", "User Not Found");
         } else {
-            return Result.success(user);
+            return DataResult.success(user);
         }
     }
 
     @Override
-    public Result<List<User>> listUsersByName(String name) {
+    public Result listUsersByName(String name) {
         List<User> userList = userMapper.listUserByName(name);
         if (userList.isEmpty()) {
-            return new Result<>("USER_NOT_FOUND", "User Not Found!", null);
+            return NoDataResult.failed("USER_NOT_FOUND", "User Not Found!");
         } else {
-            return Result.success(userList);
+            return DataResult.success(userList);
         }
     }
 

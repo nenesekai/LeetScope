@@ -8,17 +8,17 @@ import java.util.List;
 
 @Service
 public interface UserService {
-    public Result<Void> register(User user);
+    Result register(User user);
 
-    public Result<String> login(User user);
+    Result login(User user);
 
-    public Boolean isValidUserId(Long uid);
+    Boolean isValidUserId(Long uid);
 
-    public Boolean isTeacher(Long uid);
+    Boolean isTeacher(Long uid);
 
-    public Boolean isStudent(Long uid);
+    Boolean isStudent(Long uid);
 
-    public Result<User> getUserById(Long uid);
+    Result getUserById(Long uid);
 
-    public Result<List<User>> listUsersByName(String name);
+    Result listUsersByName(String name);
 }

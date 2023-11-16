@@ -13,5 +13,5 @@ import java.util.List;
 @Mapper
 public interface AssignmentMapper extends BaseMapper<Assignment> {
     @Select("select * from assignment")
-    public List<Assignment> listAllAssignments();
+    List<Assignment> listAllAssignments();
 }
