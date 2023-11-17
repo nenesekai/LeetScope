@@ -9,11 +9,14 @@ import lombok.NoArgsConstructor;
  */
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public abstract class Result {
     private String msg;
     private String code;
+
+    public Result(String code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
 
     public static final String SUCCESS_CODE = "SUCCESS";
     public static final String FAILED_CODE = "FAILED";

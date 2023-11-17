@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
         }
         List<User> userList = userMapper.listUserByName(user.getName());
         if (userList.isEmpty() || !userList.get(0).getPassword().equals(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()))) {
-            return NoDataResult.failed("INVALID_LOGIN_REQUEST", "Invalid Usernamd or Password");
+            return NoDataResult.failed("INVALID_LOGIN_REQUEST", "Invalid Username or Password");
         }
         String token = JwtUtil.generateToken(String.valueOf(userList.get(0).getId()));
         return LoginResult.success(token);

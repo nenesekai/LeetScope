@@ -29,13 +29,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public Result login(
-            @RequestParam("name") String name,
-            @RequestParam("password") String password
-    ) {
-        User user = new User();
-        user.setName(name);
-        user.setPassword(password);
+    public Result login(@RequestBody() User user) {
         return userService.login(user);
     }
 }
