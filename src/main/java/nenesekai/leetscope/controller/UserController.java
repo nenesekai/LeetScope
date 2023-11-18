@@ -14,17 +14,7 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/register")
-    public Result register(
-            @RequestParam("name") String name,
-            @RequestParam("password") String password,
-            @RequestParam(value = "isTeacher", required = false) Boolean isTeacher,
-            @RequestParam(value = "isStudent", required = false) Boolean isStudent
-    ) {
-        User user = new User();
-        user.setName(name);
-        user.setPassword(password);
-        user.setIsTeacher(isTeacher != null && isTeacher);
-        user.setIsStudent(isStudent != null && isStudent);
+    public Result register(@RequestBody() User user) {
         return userService.register(user);
     }
 
