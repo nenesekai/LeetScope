@@ -21,5 +21,5 @@ public abstract class Result {
     public static final String SUCCESS_CODE = "SUCCESS";
     public static final String FAILED_CODE = "FAILED";
     public static final String MISSING_PARAM_CODE = "MISSING_PARAMS";
-    public static final String INVALID_PARAM_CODE = "INVALID_PARAMs";
+    public static final String INVALID_PARAM_CODE = "INVALID_PARAMS";
 }

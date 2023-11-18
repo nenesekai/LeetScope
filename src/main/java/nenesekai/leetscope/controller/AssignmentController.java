@@ -33,4 +33,9 @@ public class AssignmentController {
     public Result deleteAssignment(@RequestParam(name = "id") Long id) {
         return assignmentService.deleteAssignment(id);
     }
+
+    @GetMapping("/get")
+    public Result getAssignment(@RequestParam(name = "id") Long id) {
+        return assignmentService.getAssignmentById(id);
+    }
 }

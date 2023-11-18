@@ -13,4 +13,6 @@ public interface AssignmentService {
     Result listAllAssignments();
 
     Result deleteAssignment(Long id);
+
+    Result getAssignmentById(Long id);
 }
