@@ -32,12 +32,12 @@ public class UserServiceImpl implements UserService {
     public Result register(User user) {
         // Check if there are required things like username or password
         if (user.getName() == null || user.getPassword() == null) {
-            return NoDataResult.failed("INVALID_REGISTER_REQUEST", "Username and Password are both required!");
+            return NoDataResult.failed(Result.MISSING_PARAM_CODE, "Username and Password are both required!");
         }
         // Check if there are duplicated username
         List<User> userList = userMapper.listUserByName(user.getName());
         if (!userList.isEmpty()) {
-            return NoDataResult.failed("INVALID_REGISTER_REQUEST", "Username already token!");
+            return NoDataResult.failed(Result.INVALID_PARAM_CODE, "Username already token!");
         }
         user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
         userMapper.insert(user);
@@ -47,11 +47,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result login(User user) {
         if (user.getName() == null || user.getPassword() == null) {
-            return NoDataResult.failed("INVALID_LOGIN_REQUEST", "Username and Password cannot be blank!");
+            return NoDataResult.failed(Result.MISSING_PARAM_CODE, "Username and Password cannot be blank!");
         }
         List<User> userList = userMapper.listUserByName(user.getName());
         if (userList.isEmpty() || !userList.get(0).getPassword().equals(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()))) {
-            return NoDataResult.failed("INVALID_LOGIN_REQUEST", "Invalid Username or Password");
+            return NoDataResult.failed(Result.INVALID_PARAM_CODE, "Invalid Username or Password");
         }
         String token = JwtUtil.generateToken(String.valueOf(userList.get(0).getId()));
         return LoginResult.success(token);
@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
     public Result getUserById(Long uid) {
         User user = userMapper.selectById(uid);
         if (user == null) {
-            return NoDataResult.failed("USER_NOT_FOUND", "User Not Found");
+            return NoDataResult.failed(Result.INVALID_PARAM_CODE, "User Not Found");
         } else {
             return DataResult.success(user);
         }
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
     public Result listUsersByName(String name) {
         List<User> userList = userMapper.listUserByName(name);
         if (userList.isEmpty()) {
-            return NoDataResult.failed("USER_NOT_FOUND", "User Not Found!");
+            return NoDataResult.failed(Result.INVALID_PARAM_CODE, "User Not Found!");
         } else {
             return DataResult.success(userList);
         }

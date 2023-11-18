@@ -39,4 +39,9 @@ public class UserController {
             return NoDataResult.failed(Result.INVALID_PARAM_CODE, "Token Expired!");
         }
     }
+
+    @GetMapping("/get")
+    public Result getUser(@RequestParam(name = "id") Long uid) {
+        return userService.getUserById(uid);
+    }
 }
