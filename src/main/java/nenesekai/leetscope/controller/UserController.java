@@ -26,18 +26,9 @@ public class UserController {
         return userService.login(user);
     }
 
-    @GetMapping("/whoAmI")
-    public Result whoAmI(@RequestHeader(name = "Authorization", required = false) String authorization) {
-        if (authorization == null || !authorization.startsWith("Bearer ")) {
-            return NoDataResult.failed(Result.INVALID_PARAM_CODE, "No Token!");
-        }
-        try {
-            Long uid = Long.valueOf(JwtUtil.parseToken(authorization.replace("Bearer ", "")));
-            System.out.println(uid);
-            return userService.getUserById(uid);
-        } catch (ExpiredJwtException e) {
-            return NoDataResult.failed(Result.INVALID_PARAM_CODE, "Token Expired!");
-        }
+    @GetMapping("/getCurrent")
+    public Result getCurrentUser(@RequestAttribute(name = "uid") Long uid) {
+        return userService.getUserById(uid);
     }
 
     @GetMapping("/get")

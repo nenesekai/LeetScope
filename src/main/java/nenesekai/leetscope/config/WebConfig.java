@@ -1,5 +1,6 @@
 package nenesekai.leetscope.config;
 
+import jakarta.annotation.Resource;
 import nenesekai.leetscope.intercepter.StudentInterceptor;
 import nenesekai.leetscope.intercepter.TeacherInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,17 @@ import nenesekai.leetscope.intercepter.JwtInterceptor;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Autowired
+    @Resource
     private TeacherInterceptor teacherInterceptor;
-    @Autowired
+    @Resource
     private StudentInterceptor studentInterceptor;
+    @Resource
+    private JwtInterceptor jwtInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(jwtInterceptor)
+                        .addPathPatterns("/user/getCurrent");
         registry.addInterceptor(teacherInterceptor)
                 .addPathPatterns("/assignment/create")
                 .addPathPatterns("/assignment/update");

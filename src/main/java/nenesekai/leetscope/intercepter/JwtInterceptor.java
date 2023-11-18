@@ -1,5 +1,6 @@
 package nenesekai.leetscope.intercepter;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import nenesekai.leetscope.service.UserService;
@@ -32,8 +33,8 @@ public class JwtInterceptor implements HandlerInterceptor {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token Provided");
                 return false;
             }
-        } catch (Exception e) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+        } catch (ExpiredJwtException e) {
+            response.sendError(999, e.getMessage());
             return false;
         }
     }
