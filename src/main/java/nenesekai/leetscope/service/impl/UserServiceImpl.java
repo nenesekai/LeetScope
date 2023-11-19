@@ -4,6 +4,7 @@ import nenesekai.leetscope.model.DataResult;
 import nenesekai.leetscope.model.LoginResult;
 import nenesekai.leetscope.model.NoDataResult;
 import nenesekai.leetscope.service.UserService;
+import nenesekai.leetscope.util.exception.InvalidUserIdException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,12 +59,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result getUserById(Long uid) {
+    public User getUserById(Long uid) throws InvalidUserIdException {
         User user = userMapper.selectById(uid);
         if (user == null) {
-            return NoDataResult.failed(Result.INVALID_PARAM_CODE, "User Not Found");
+            throw new InvalidUserIdException();
         } else {
-            return DataResult.success(user);
+            return user;
         }
     }
 

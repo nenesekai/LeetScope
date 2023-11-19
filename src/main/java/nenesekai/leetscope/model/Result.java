@@ -1,8 +1,6 @@
 package nenesekai.leetscope.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * @author Qixuan Chen
@@ -22,6 +20,6 @@ public abstract class Result {
     public static final String FAILED_CODE = "FAILED";
     public static final String MISSING_PARAM_CODE = "MISSING_PARAMS";
     public static final String INVALID_PARAM_CODE = "INVALID_PARAMS";
-    public static final String INVALID_TOKEN = "INVALID_TOKEN";
-    public static final String EXPIRED_TOKEN = "EXPIRED_TOKEN";
+    public static final String INVALID_TOKEN_CODE = "INVALID_TOKEN";
+    public static final String EXPIRED_TOKEN_CODE = "EXPIRED_TOKEN";
 }

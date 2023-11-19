@@ -2,10 +2,11 @@ package nenesekai.leetscope.controller;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.annotation.Resource;
+import nenesekai.leetscope.model.DataResult;
 import nenesekai.leetscope.model.NoDataResult;
 import nenesekai.leetscope.service.UserService;
 import nenesekai.leetscope.util.JwtUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import nenesekai.leetscope.util.exception.InvalidUserIdException;
 import org.springframework.web.bind.annotation.*;
 import nenesekai.leetscope.entity.User;
 import nenesekai.leetscope.model.Result;
@@ -27,12 +28,29 @@ public class UserController {
     }
 
     @GetMapping("/getCurrent")
-    public Result getCurrentUser(@RequestAttribute(name = "uid") Long uid) {
-        return userService.getUserById(uid);
+    public Result getCurrentUser(@RequestHeader(name = "Authorization", required = false) String authorization) {
+        if (authorization == null || !authorization.startsWith("Bearer ")) {
+            return NoDataResult.failed(Result.INVALID_TOKEN_CODE, "No Token Provided!");
+        }
+        String token = authorization.replace("Bearer ", "");
+        try {
+            Long uid = Long.valueOf(JwtUtil.parseToken(token));
+            User user = userService.getUserById(uid);
+            return DataResult.success(user);
+        } catch (ExpiredJwtException e) {
+            return NoDataResult.failed(Result.EXPIRED_TOKEN_CODE, e.getMessage());
+        } catch (Exception e) {
+            return NoDataResult.failed(Result.INVALID_TOKEN_CODE, e.getMessage());
+        }
     }
 
     @GetMapping("/get")
     public Result getUser(@RequestParam(name = "id") Long uid) {
-        return userService.getUserById(uid);
+        try {
+            User user = userService.getUserById(uid);
+            return DataResult.success(user);
+        } catch (InvalidUserIdException e) {
+            return NoDataResult.failed(Result.INVALID_PARAM_CODE, e.getMessage());
+        }
     }
 }

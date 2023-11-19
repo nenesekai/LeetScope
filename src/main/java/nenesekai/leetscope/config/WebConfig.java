@@ -21,12 +21,12 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(jwtInterceptor)
-                        .addPathPatterns("/user/getCurrent");
-        registry.addInterceptor(teacherInterceptor)
-                .addPathPatterns("/assignment/create")
-                .addPathPatterns("/assignment/update");
-        registry.addInterceptor(studentInterceptor)
-                .addPathPatterns("/hello/sayHello");
+//        registry.addInterceptor(jwtInterceptor)
+//                .addPathPatterns("/user/getCurrent");
+//        registry.addInterceptor(teacherInterceptor)
+//                .addPathPatterns("/assignment/create")
+//                .addPathPatterns("/assignment/update");
+//        registry.addInterceptor(studentInterceptor)
+//                .addPathPatterns("/hello/sayHello");
     }
 }

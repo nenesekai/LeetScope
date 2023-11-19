@@ -1,5 +1,6 @@
 package nenesekai.leetscope.service;
 
+import nenesekai.leetscope.util.exception.InvalidUserIdException;
 import org.springframework.stereotype.Service;
 import nenesekai.leetscope.entity.User;
 import nenesekai.leetscope.model.Result;
@@ -18,7 +19,7 @@ public interface UserService {
 
     Boolean isStudent(Long uid);
 
-    Result getUserById(Long uid);
+    User getUserById(Long uid) throws InvalidUserIdException;
 
     Result listUsersByName(String name);
 }
