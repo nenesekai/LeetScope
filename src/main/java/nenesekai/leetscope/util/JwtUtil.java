@@ -2,10 +2,17 @@ package nenesekai.leetscope.util;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.Resource;
+import nenesekai.leetscope.entity.User;
+import nenesekai.leetscope.model.NoDataResult;
+import nenesekai.leetscope.model.Result;
+import nenesekai.leetscope.service.UserService;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
 
+@Component
 public class JwtUtil {
     private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor("OttoHandsome114514MaimaiDXFestivalPlusWDNMD3141592653HatsuneMiku".getBytes());
 

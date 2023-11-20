@@ -7,4 +7,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface SubmissionService {
     public Result create(Submission submission);
+
+    public Result listSubmissions(Long uid, Long assignmentId);
 }

@@ -54,4 +54,25 @@ public class SubmisisonController {
             return NoDataResult.failed(Result.INVALID_TOKEN_CODE, "Token is invalid");
         }
     }
+
+    @GetMapping("/list")
+    public Result listSubmissions(
+            @RequestParam(name = "assignmentId") Long assignmentId,
+            @RequestHeader(name = "Authorization") String authorization
+    ) {
+        if (authorization == null || !authorization.startsWith("Bearer ")) {
+            return NoDataResult.failed(Result.INVALID_TOKEN_CODE, "No Token Provided");
+        }
+        try {
+            String token = authorization.replace("Bearer ", "");
+            Long uid = Long.valueOf(JwtUtil.parseToken(token));
+            User user = userService.getUserById(uid);
+
+            return submissionService.listSubmissions(uid, assignmentId);
+        } catch (ExpiredJwtException e) {
+            return NoDataResult.failed(Result.EXPIRED_TOKEN_CODE, "Token Expired");
+        } catch (Exception e) {
+            return NoDataResult.failed(Result.INVALID_TOKEN_CODE, "Token is invalid");
+        }
+    }
 }
