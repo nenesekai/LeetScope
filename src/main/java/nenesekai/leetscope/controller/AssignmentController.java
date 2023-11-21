@@ -5,6 +5,8 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import nenesekai.leetscope.entity.Assignment;
 import nenesekai.leetscope.entity.User;
+import nenesekai.leetscope.mapper.AssignmentMapper;
+import nenesekai.leetscope.model.DataResult;
 import nenesekai.leetscope.model.NoDataResult;
 import nenesekai.leetscope.service.StorageService;
 import nenesekai.leetscope.service.UserService;
@@ -22,6 +24,8 @@ import java.util.Properties;
 public class AssignmentController {
     @Resource
     AssignmentService assignmentService;
+    @Resource
+    AssignmentMapper assignmentMapper;
     @Resource
     UserService userService;
     @Resource
@@ -45,27 +49,25 @@ public class AssignmentController {
         } catch (ExpiredJwtException e) {
             return NoDataResult.failed(Result.EXPIRED_TOKEN_CODE, "Token Expired");
         } catch (Exception e) {
-            return NoDataResult.failed(Result.INVALID_TOKEN_CODE, "Token is Invalid");
+            return NoDataResult.failed(Result.INVALID_TOKEN_CODE, e.getMessage());
         }
     }
 
     @PostMapping("/upload/inputFile")
     public Result uploadInputFile(
             @RequestParam("file") MultipartFile file,
-            @RequestParam("assignmentId") Integer assignmentId,
-            @RequestHeader("Authorization") String authorization
+            @RequestParam("assignmentId") Integer assignmentId
     ) {
-        storageService.store("samples", String.valueOf(assignmentId), "input", file);
+        storageService.store("samples", String.valueOf(assignmentId), "input.txt", file);
         return NoDataResult.success();
     }
 
     @PostMapping("/upload/outputFile")
     public Result uploadOutputFile(
             @RequestParam("file") MultipartFile file,
-            @RequestParam("assignmentId") Integer assignmentId,
-            @RequestHeader("Authorization") String authorization
+            @RequestParam("assignmentId") Integer assignmentId
     ) {
-        storageService.store("samples", String.valueOf(assignmentId), "output", file);
+        storageService.store("samples", String.valueOf(assignmentId), "output.txt", file);
         return NoDataResult.success();
     }
 
