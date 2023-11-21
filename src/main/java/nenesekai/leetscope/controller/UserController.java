@@ -34,7 +34,7 @@ public class UserController {
         }
         String token = authorization.replace("Bearer ", "");
         try {
-            Long uid = Long.valueOf(JwtUtil.parseToken(token));
+            Integer uid = Integer.valueOf(JwtUtil.parseToken(token));
             User user = userService.getUserById(uid);
             return DataResult.success(user);
         } catch (ExpiredJwtException e) {
@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @GetMapping("/get")
-    public Result getUser(@RequestParam(name = "id") Long uid) {
+    public Result getUser(@RequestParam(name = "id") Integer uid) {
         try {
             User user = userService.getUserById(uid);
             return DataResult.success(user);

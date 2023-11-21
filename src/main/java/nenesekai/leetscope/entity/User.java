@@ -9,7 +9,7 @@ import lombok.Data;
 @TableName("`user`")
 @JsonIgnoreProperties(value = "password", allowSetters = true)
 public class User {
-    private Long id;
+    private Integer id;
     private String name;
     private String password;
     private Boolean isTeacher;

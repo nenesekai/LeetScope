@@ -13,13 +13,13 @@ public interface UserService {
 
     Result login(User user);
 
-    Boolean isValidUserId(Long uid);
+    Boolean isValidUserId(Integer uid);
 
-    Boolean isTeacher(Long uid);
+    Boolean isTeacher(Integer uid);
 
-    Boolean isStudent(Long uid);
+    Boolean isStudent(Integer uid);
 
-    User getUserById(Long uid) throws InvalidUserIdException;
+    User getUserById(Integer uid) throws InvalidUserIdException;
 
     Result listUsersByName(String name);
 }

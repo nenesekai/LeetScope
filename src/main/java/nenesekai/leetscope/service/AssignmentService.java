@@ -12,7 +12,7 @@ public interface AssignmentService {
 
     Result listAllAssignments();
 
-    Result deleteAssignment(Long id);
+    Result deleteAssignment(Integer id);
 
-    Result getAssignmentById(Long id);
+    Result getAssignmentById(Integer id);
 }

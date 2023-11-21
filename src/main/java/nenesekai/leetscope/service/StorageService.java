@@ -13,7 +13,7 @@ public interface StorageService {
 
     void init();
 
-    void store(String prefix, MultipartFile file);
+    void store(String prefix, String id, String fileName, MultipartFile file);
 
     Stream<Path> loadAll();
 

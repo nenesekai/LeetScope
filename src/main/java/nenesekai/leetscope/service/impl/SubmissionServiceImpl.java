@@ -23,7 +23,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     }
 
     @Override
-    public Result listSubmissions(Long uid, Long assignmentId) {
+    public Result listSubmissions(Integer uid, Integer assignmentId) {
         return DataResult.success(submissionMapper.listSubmissions(uid, assignmentId));
     }
 }

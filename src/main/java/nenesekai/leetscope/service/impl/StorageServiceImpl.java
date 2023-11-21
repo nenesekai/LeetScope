@@ -40,15 +40,14 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public void store(String prefix, MultipartFile file) {
+    public void store(String prefix, String id, String fileName, MultipartFile file) {
         try {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file.");
             }
             Path destinationFile = this.rootLocation.resolve(
-                            Paths.get(prefix, file.getOriginalFilename()))
+                            Paths.get(prefix, id, fileName))
                     .normalize().toAbsolutePath();
-            System.out.println(destinationFile.toString());
             try (InputStream inputStream = file.getInputStream()) {
                 Files.createDirectories(destinationFile.getParent());
                 Files.copy(inputStream, destinationFile,

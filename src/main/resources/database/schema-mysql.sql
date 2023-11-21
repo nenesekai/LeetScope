@@ -4,7 +4,7 @@ drop table if exists `assignment`;
 drop table if exists `user`;
 
 create table `user` (
-    id bigint not null auto_increment,
+    id int not null auto_increment,
     name varchar(30) not null unique,
     password varchar(40) not null,
     is_teacher boolean default false,
@@ -13,8 +13,8 @@ create table `user` (
 );
 
 create table `assignment` (
-    id bigint not null auto_increment,
-    uid bigint not null,
+    id int not null auto_increment,
+    uid int not null,
     title varchar(60) not null,
     description varchar(255) default null,
     create_time datetime not null,
@@ -24,19 +24,10 @@ create table `assignment` (
     foreign key(uid) references user(id)
 );
 
-create table `test_case` (
-    id bigint not null auto_increment,
-    assignment_id bigint not null,
-    input_file_name varchar(255),
-    output_file_name varchar(255),
-    primary key(id),
-    foreign key(assignment_id) references assignment(id)
-);
-
 create table `submission` (
-    id bigint not null auto_increment,
-    uid bigint not null,
-    assignment_id bigint not null,
+    id int not null auto_increment,
+    uid int not null,
+    assignment_id int not null,
     file_name varchar(255) not null,
     is_graded boolean default false,
     is_pass boolean default false,

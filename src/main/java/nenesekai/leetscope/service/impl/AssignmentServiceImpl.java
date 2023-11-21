@@ -51,13 +51,13 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public Result deleteAssignment(Long id) {
+    public Result deleteAssignment(Integer id) {
         assignmentMapper.deleteById(id);
         return DataResult.success("Assignment Deleted");
     }
 
     @Override
-    public Result getAssignmentById(Long id) {
+    public Result getAssignmentById(Integer id) {
         Assignment assignment = assignmentMapper.selectById(id);
         if (assignment == null) {
             return NoDataResult.failed(Result.INVALID_PARAM_CODE, "Invalid Assignment ID");

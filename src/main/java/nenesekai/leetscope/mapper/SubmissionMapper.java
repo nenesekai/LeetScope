@@ -10,5 +10,5 @@ import java.util.List;
 @Mapper
 public interface SubmissionMapper extends BaseMapper<Submission> {
     @Select("select * from submission s where s.uid = ${uid} and s.assignment_id = ${assignmentId}")
-    public List<Submission> listSubmissions(Long uid, Long assignmentId);
+    public List<Submission> listSubmissions(Integer uid, Integer assignmentId);
 }

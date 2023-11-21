@@ -28,7 +28,7 @@ public class SubmisisonController {
     @PostMapping("/upload")
     public Result upload(
             @RequestParam("file") MultipartFile file,
-            @RequestParam("assignmentId") Long assignmentId,
+            @RequestParam("assignmentId") int assignmentId,
             @RequestHeader("Authorization") String authorization
     ) {
         if (authorization == null || !authorization.startsWith("Bearer ")) {
@@ -36,7 +36,7 @@ public class SubmisisonController {
         }
         try {
             String token = authorization.replace("Bearer ", "");
-            Long uid = Long.valueOf(JwtUtil.parseToken(token));
+            Integer uid = Integer.valueOf(JwtUtil.parseToken(token));
             User user = userService.getUserById(uid);
             Submission submission = new Submission();
             submission.setUid(user.getId());
@@ -46,7 +46,7 @@ public class SubmisisonController {
             submission.setIsGraded(false);
             submission.setIsPass(false);
             submissionService.create(submission);
-            storageService.store(String.valueOf(submission.getId()), file);
+            storageService.store("codes", String.valueOf(submission.getId()), file.getOriginalFilename(), file);
             return NoDataResult.success();
         } catch (ExpiredJwtException e) {
             return NoDataResult.failed(Result.EXPIRED_TOKEN_CODE, "Token Expired");
@@ -57,7 +57,7 @@ public class SubmisisonController {
 
     @GetMapping("/list")
     public Result listSubmissions(
-            @RequestParam(name = "assignmentId") Long assignmentId,
+            @RequestParam(name = "assignmentId") Integer assignmentId,
             @RequestHeader(name = "Authorization") String authorization
     ) {
         if (authorization == null || !authorization.startsWith("Bearer ")) {
@@ -65,8 +65,8 @@ public class SubmisisonController {
         }
         try {
             String token = authorization.replace("Bearer ", "");
-            Long uid = Long.valueOf(JwtUtil.parseToken(token));
-            User user = userService.getUserById(uid);
+            Integer uid = Integer.valueOf(JwtUtil.parseToken(token));
+            userService.getUserById(uid);
 
             return submissionService.listSubmissions(uid, assignmentId);
         } catch (ExpiredJwtException e) {

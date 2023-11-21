@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
-    public Boolean isValidUserId(Long uid) {
+    public Boolean isValidUserId(Integer uid) {
         return userMapper.selectById(uid) != null;
     }
 
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long uid) throws InvalidUserIdException {
+    public User getUserById(Integer uid) throws InvalidUserIdException {
         User user = userMapper.selectById(uid);
         if (user == null) {
             throw new InvalidUserIdException();
@@ -79,13 +79,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean isStudent(Long uid) {
+    public Boolean isStudent(Integer uid) {
         User user = userMapper.selectById(uid);
         return user != null && user.getIsStudent();
     }
 
     @Override
-    public Boolean isTeacher(Long uid) {
+    public Boolean isTeacher(Integer uid) {
         User user = userMapper.selectById(uid);
         return user != null && user.getIsTeacher();
     }

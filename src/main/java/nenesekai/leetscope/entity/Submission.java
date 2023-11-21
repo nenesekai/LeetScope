@@ -8,9 +8,9 @@ import java.util.Date;
 @Data
 @TableName("`submission`")
 public class Submission {
-    private Long id;
-    private Long uid;
-    private Long assignmentId;
+    private Integer id;
+    private Integer uid;
+    private Integer assignmentId;
     private String fileName;
     private Boolean isGraded;
     private Boolean isPass;

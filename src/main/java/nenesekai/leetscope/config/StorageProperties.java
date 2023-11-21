@@ -13,5 +13,5 @@ import org.springframework.context.annotation.Configuration;
 public class StorageProperties {
     @Getter
     @Setter
-    private String location = "C:\\Users\\Asiimoviet\\OneDrive\\Desktop\\Uploaded Codes";
+    private String location = "/Users/asiimoviet/Documents/WebStorm/leetscope-vue/codes";
 }

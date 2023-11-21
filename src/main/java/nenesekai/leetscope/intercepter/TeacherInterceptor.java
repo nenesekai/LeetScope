@@ -25,7 +25,7 @@ public class TeacherInterceptor implements HandlerInterceptor {
         }
         String token = authorization.replace("Bearer ", "");
         try {
-            Long uid = Long.valueOf(JwtUtil.parseToken(token));
+            Integer uid = Integer.valueOf(JwtUtil.parseToken(token));
             if (userService.isTeacher(uid)) {
                 request.setAttribute("uid", uid);
                 return true;
