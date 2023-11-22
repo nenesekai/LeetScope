@@ -7,6 +7,7 @@ import nenesekai.leetscope.model.DataResult;
 import nenesekai.leetscope.model.NoDataResult;
 import nenesekai.leetscope.model.Result;
 import nenesekai.leetscope.service.SubmissionService;
+import nenesekai.leetscope.util.GradeUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +16,13 @@ import java.util.List;
 public class SubmissionServiceImpl implements SubmissionService {
     @Resource
     SubmissionMapper submissionMapper;
+    @Resource
+    GradeUtil gradeUtil;
 
     @Override
     public Result create(Submission submission) {
         submissionMapper.insert(submission);
+        gradeUtil.gradeNewAssignment(submission.getId());
         return DataResult.success(submission);
     }
 

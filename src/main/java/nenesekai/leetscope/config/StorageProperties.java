@@ -13,5 +13,8 @@ import org.springframework.context.annotation.Configuration;
 public class StorageProperties {
     @Getter
     @Setter
-    private String location = "/Users/asiimoviet/Storage";
+    private String location = "/Users/asiimoviet/Documents/IntelliJ IDEA/LeetScope/temp";
+    @Getter
+    @Setter
+    private String compilerLocation = "/usr/bin/g++";
 }
