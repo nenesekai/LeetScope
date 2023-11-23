@@ -18,7 +18,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -27,16 +26,16 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class StorageServiceImpl implements StorageService {
 
-    private final Path rootLocation;
+    private final Path storageLocation;
 
     @Autowired
     public StorageServiceImpl(StorageProperties properties) {
 
-        if(properties.getLocation().trim().isEmpty()){
+        if(properties.getRoot().toString().trim().isEmpty()){
             throw new StorageException("File upload location can not be Empty.");
         }
 
-        this.rootLocation = Paths.get(properties.getLocation());
+        this.storageLocation = properties.storageLocation;
     }
 
     @Override
@@ -45,7 +44,7 @@ public class StorageServiceImpl implements StorageService {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file.");
             }
-            Path destinationFile = this.rootLocation.resolve(
+            Path destinationFile = this.storageLocation.resolve(
                             Paths.get(prefix, id, fileName))
                     .normalize().toAbsolutePath();
             try (InputStream inputStream = file.getInputStream()) {
@@ -62,9 +61,9 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public Stream<Path> loadAll() {
         try {
-            return Files.walk(this.rootLocation, 1)
-                    .filter(path -> !path.equals(this.rootLocation))
-                    .map(this.rootLocation::relativize);
+            return Files.walk(this.storageLocation, 1)
+                    .filter(path -> !path.equals(this.storageLocation))
+                    .map(this.storageLocation::relativize);
         }
         catch (IOException e) {
             throw new StorageException("Failed to read stored files", e);
@@ -74,7 +73,7 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public Path load(String filename) {
-        return rootLocation.resolve(filename);
+        return storageLocation.resolve(filename);
     }
 
     @Override
@@ -98,13 +97,13 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public void deleteAll() {
-        FileSystemUtils.deleteRecursively(rootLocation.toFile());
+        FileSystemUtils.deleteRecursively(storageLocation.toFile());
     }
 
     @Override
     public void init() {
         try {
-            Files.createDirectories(rootLocation);
+            Files.createDirectories(storageLocation);
         }
         catch (IOException e) {
             throw new StorageException("Could not initialize storage", e);

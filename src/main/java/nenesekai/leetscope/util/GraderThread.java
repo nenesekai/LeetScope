@@ -10,6 +10,8 @@ import nenesekai.leetscope.mapper.SubmissionMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,6 +24,11 @@ public class GraderThread extends Thread {
     SubmissionMapper submissionMapper;
     Path storageLocation;
     Path compilerLocation;
+    Path codeFile;
+    Path binaryFile;
+    Path inputFile;
+    Path outputFile;
+    Path userOutputFile;
 
     Assignment assignment;
     Submission submission;
@@ -37,35 +44,84 @@ public class GraderThread extends Thread {
         this.submission = submission;
         this.assignmentMapper = assignmentMapper;
         this.submissionMapper = submissionMapper;
-        this.storageLocation = Paths.get(storageProperties.getLocation());
-        this.compilerLocation = Paths.get(storageProperties.getCompilerLocation());
+        this.storageLocation = storageProperties.storageLocation;
+        this.compilerLocation = storageProperties.compilerLocation.resolve("g++.exe").normalize().toAbsolutePath();
+        this.codeFile = this.storageLocation.resolve(
+                Paths.get("codes", String.valueOf(submission.getId()), submission.getFileName())
+        ).normalize().toAbsolutePath();
+        this.binaryFile = this.storageLocation.resolve(
+                Paths.get("executables", String.valueOf(submission.getId()), "main.exe")
+        ).normalize().toAbsolutePath();
+        this.inputFile = this.storageLocation.resolve(
+                Paths.get("samples", String.valueOf(submission.getAssignmentId()), "input.txt")
+        ).normalize().toAbsolutePath();
+        this.outputFile = this.storageLocation.resolve(
+                Paths.get("samples", String.valueOf(submission.getAssignmentId()), "output.txt")
+        ).normalize().toAbsolutePath();
+        this.userOutputFile = this.storageLocation.resolve(
+                Paths.get("executables", String.valueOf(submission.getId()), "userOutput.txt")
+        ).normalize().toAbsolutePath();
+    }
+
+    public void compile() {
+        try {
+            Files.createDirectories(binaryFile.getParent());
+            String[] commands = {
+                    compilerLocation.toString(),
+                    codeFile.toString(),
+                    "-o",
+                    binaryFile.toString()
+            };
+            for (String command : commands) {
+                System.out.println(command);
+            }
+            Runtime runtime = Runtime.getRuntime();
+            Process process = runtime.exec(commands);
+            process.waitFor();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void execute() {
+        try {
+            Runtime runtime = Runtime.getRuntime();
+            String[] commands = {
+                    "\"C:\\Windows\\system32\\cmd.exe\"", "/c", binaryFile.toString(), "<", inputFile.toString(), ">", userOutputFile.toString()
+            };
+            for (String command: commands) {
+                System.out.print(command + " ");
+            }
+            System.out.println();
+            Process process = runtime.exec(commands);
+            Scanner scanner = new Scanner(process.getInputStream());
+            process.waitFor();
+            while (scanner.hasNext()) {
+                System.out.println(scanner.next());
+            }
+            scanner.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void grade() {
+        try {
+            Long result = Files.mismatch(userOutputFile, outputFile);
+            if (result == -1) {
+                submission.setIsPass(true);
+            }
+            submissionMapper.updateById(submission);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void run() {
-        try {
-            List<String> commands = new ArrayList<>();
-            Path codeFile = this.storageLocation.resolve(
-                    Paths.get("codes", String.valueOf(submission.getId()), submission.getFileName())
-                    ).normalize().toAbsolutePath();
-            Path binaryFile = this.storageLocation.resolve(
-                    Paths.get("executables", String.valueOf(submission.getId()), "main")
-            ).normalize().toAbsolutePath();
-            Files.createDirectories(binaryFile.getParent());
-            commands.add("\"%s\" \"%s\" -o \"%s\"".formatted(compilerLocation.toString(), codeFile.toString(), binaryFile.toString()));
-            for (String command : commands ) System.out.println(command); // TODO: DELETE
-            ProcessBuilder processBuilder = new ProcessBuilder(commands);
-            Process process = processBuilder.start();
-            Scanner scanner = new Scanner(process.getInputStream());
-            if (scanner.hasNext()) {
-                System.out.println(scanner.next());
-            }
-            scanner.close();
-            submission.setIsGraded(true);
-            submission.setIsPass(true);
-            submissionMapper.updateById(submission);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        submission.setIsGraded(true);
+        compile();
+        execute();
+        grade();
     }
 }
