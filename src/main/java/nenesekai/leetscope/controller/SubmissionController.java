@@ -17,7 +17,7 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/submission")
-public class SubmisisonController {
+public class SubmissionController {
     @Resource
     StorageService storageService;
     @Resource
@@ -66,9 +66,12 @@ public class SubmisisonController {
         try {
             String token = authorization.replace("Bearer ", "");
             Integer uid = Integer.valueOf(JwtUtil.parseToken(token));
-            userService.getUserById(uid);
-
-            return submissionService.listSubmissions(uid, assignmentId);
+            User user = userService.getUserById(uid);
+            if (user.getIsTeacher()) {
+                return submissionService.listSubmissionByAssignmentId(assignmentId);
+            } else {
+                return submissionService.listSubmissionsByUidAndAssignmentId(uid, assignmentId);
+            }
         } catch (ExpiredJwtException e) {
             return NoDataResult.failed(Result.EXPIRED_TOKEN_CODE, "Token Expired");
         } catch (Exception e) {

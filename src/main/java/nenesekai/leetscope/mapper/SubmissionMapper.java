@@ -11,7 +11,10 @@ import java.util.List;
 @Mapper
 public interface SubmissionMapper extends BaseMapper<Submission> {
     @Select("select * from submission s where s.uid = ${uid} and s.assignment_id = ${assignmentId}")
-    public List<Submission> listSubmissions(Integer uid, Integer assignmentId);
+    public List<Submission> listSubmissionsByUidAndAssignmentId(Integer uid, Integer assignmentId);
+
+    @Select("select * from submission s where s.assignment_id = ${assignmentId}")
+    public List<Submission> listSubmissionsByAssignmentId(Integer assignmentId);
 
     @Delete("delete from submission s where s.assignment_id = ${assignmentId}")
     public void deleteSubmissionByAssignmentId(Integer assignmentId);

@@ -4,13 +4,10 @@ import jakarta.annotation.Resource;
 import nenesekai.leetscope.entity.Submission;
 import nenesekai.leetscope.mapper.SubmissionMapper;
 import nenesekai.leetscope.model.DataResult;
-import nenesekai.leetscope.model.NoDataResult;
 import nenesekai.leetscope.model.Result;
 import nenesekai.leetscope.service.SubmissionService;
 import nenesekai.leetscope.util.GradeUtil;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class SubmissionServiceImpl implements SubmissionService {
@@ -27,7 +24,12 @@ public class SubmissionServiceImpl implements SubmissionService {
     }
 
     @Override
-    public Result listSubmissions(Integer uid, Integer assignmentId) {
-        return DataResult.success(submissionMapper.listSubmissions(uid, assignmentId));
+    public Result listSubmissionsByUidAndAssignmentId(Integer uid, Integer assignmentId) {
+        return DataResult.success(submissionMapper.listSubmissionsByUidAndAssignmentId(uid, assignmentId));
+    }
+
+    @Override
+    public Result listSubmissionByAssignmentId(Integer assignmentId) {
+        return DataResult.success(submissionMapper.listSubmissionsByUidAndAssignmentId())
     }
 }
