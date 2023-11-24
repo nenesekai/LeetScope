@@ -30,6 +30,6 @@ public class SubmissionServiceImpl implements SubmissionService {
 
     @Override
     public Result listSubmissionByAssignmentId(Integer assignmentId) {
-        return DataResult.success(submissionMapper.listSubmissionsByUidAndAssignmentId())
+        return DataResult.success(submissionMapper.listSubmissionsByAssignmentId(assignmentId));
     }
 }
