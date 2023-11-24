@@ -29,6 +29,7 @@ public class GraderThread extends Thread {
     Path inputFile;
     Path outputFile;
     Path userOutputFile;
+    Path shellLocation;
 
     Assignment assignment;
     Submission submission;
@@ -45,12 +46,12 @@ public class GraderThread extends Thread {
         this.assignmentMapper = assignmentMapper;
         this.submissionMapper = submissionMapper;
         this.storageLocation = storageProperties.storageLocation;
-        this.compilerLocation = storageProperties.compilerLocation.resolve("g++.exe").normalize().toAbsolutePath();
+        this.compilerLocation = storageProperties.compilerLocation.normalize().toAbsolutePath();
         this.codeFile = this.storageLocation.resolve(
                 Paths.get("codes", String.valueOf(submission.getId()), submission.getFileName())
         ).normalize().toAbsolutePath();
         this.binaryFile = this.storageLocation.resolve(
-                Paths.get("executables", String.valueOf(submission.getId()), "main.exe")
+                Paths.get("executables", String.valueOf(submission.getId()), "main")
         ).normalize().toAbsolutePath();
         this.inputFile = this.storageLocation.resolve(
                 Paths.get("samples", String.valueOf(submission.getAssignmentId()), "input.txt")
@@ -61,6 +62,7 @@ public class GraderThread extends Thread {
         this.userOutputFile = this.storageLocation.resolve(
                 Paths.get("executables", String.valueOf(submission.getId()), "userOutput.txt")
         ).normalize().toAbsolutePath();
+        this.shellLocation = storageProperties.shellLocation;
     }
 
     public void compile() {
@@ -86,13 +88,16 @@ public class GraderThread extends Thread {
     public void execute() {
         try {
             Runtime runtime = Runtime.getRuntime();
+            Files.createFile(userOutputFile);
             String[] commands = {
-                    "\"C:\\Windows\\system32\\cmd.exe\"", "/c", binaryFile.toString(), "<", inputFile.toString(), ">", userOutputFile.toString()
+                    shellLocation.toString(),
+                    "-c",
+                    binaryFile.toString(),
+                    "<",
+                    inputFile.toString(),
+                    ">",
+                    userOutputFile.toString()
             };
-            for (String command: commands) {
-                System.out.print(command + " ");
-            }
-            System.out.println();
             Process process = runtime.exec(commands);
             Scanner scanner = new Scanner(process.getInputStream());
             process.waitFor();

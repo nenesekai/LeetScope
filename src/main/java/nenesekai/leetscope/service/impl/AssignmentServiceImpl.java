@@ -1,7 +1,9 @@
 package nenesekai.leetscope.service.impl;
 
 import jakarta.annotation.Resource;
+import nenesekai.leetscope.config.StorageProperties;
 import nenesekai.leetscope.entity.Assignment;
+import nenesekai.leetscope.mapper.SubmissionMapper;
 import nenesekai.leetscope.model.DataResult;
 import nenesekai.leetscope.model.NoDataResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +12,18 @@ import nenesekai.leetscope.mapper.AssignmentMapper;
 import nenesekai.leetscope.model.Result;
 import nenesekai.leetscope.service.AssignmentService;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Date;
 
 @Component
 public class AssignmentServiceImpl implements AssignmentService {
     @Resource
     AssignmentMapper assignmentMapper;
+    @Resource
+    SubmissionMapper submissionMapper;
+    @Resource
+    StorageProperties storageProperties;
 
     @Override
     public Result createAssignment(Assignment assignment) {
@@ -52,7 +60,13 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public Result deleteAssignment(Integer id) {
+        submissionMapper.deleteSubmissionByAssignmentId(id);
         assignmentMapper.deleteById(id);
+        try {
+            Files.deleteIfExists(storageProperties.getRoot().resolve("samples").resolve(String.valueOf(id)));
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
         return DataResult.success("Assignment Deleted");
     }
 

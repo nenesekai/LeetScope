@@ -3,6 +3,7 @@ package nenesekai.leetscope.controller;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import nenesekai.leetscope.config.StorageProperties;
 import nenesekai.leetscope.entity.Assignment;
 import nenesekai.leetscope.entity.User;
 import nenesekai.leetscope.mapper.AssignmentMapper;
@@ -16,6 +17,8 @@ import nenesekai.leetscope.model.Result;
 import nenesekai.leetscope.service.AssignmentService;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Date;
 import java.util.Properties;
 
@@ -30,6 +33,8 @@ public class AssignmentController {
     UserService userService;
     @Resource
     StorageService storageService;
+    @Resource
+    StorageProperties storageProperties;
 
     @PostMapping("/create")
     public Result createAssignment(
