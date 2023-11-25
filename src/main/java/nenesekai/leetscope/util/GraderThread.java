@@ -74,9 +74,6 @@ public class GraderThread extends Thread {
                     "-o",
                     binaryFile.toString()
             };
-            for (String command : commands) {
-                System.out.println(command);
-            }
             Runtime runtime = Runtime.getRuntime();
             Process process = runtime.exec(commands);
             process.waitFor();
@@ -87,24 +84,13 @@ public class GraderThread extends Thread {
 
     public void execute() {
         try {
-            Runtime runtime = Runtime.getRuntime();
             Files.createFile(userOutputFile);
-            String[] commands = {
-                    shellLocation.toString(),
-                    "-c",
-                    binaryFile.toString(),
-                    "<",
-                    inputFile.toString(),
-                    ">",
-                    userOutputFile.toString()
-            };
-            Process process = runtime.exec(commands);
-            Scanner scanner = new Scanner(process.getInputStream());
+            File output = new File(userOutputFile.toString());
+            ProcessBuilder pb = new ProcessBuilder(binaryFile.toString());
+            pb.redirectInput(new File(inputFile.toString()));
+            pb.redirectOutput(output);
+            Process process = pb.start();
             process.waitFor();
-            while (scanner.hasNext()) {
-                System.out.println(scanner.next());
-            }
-            scanner.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -112,7 +98,7 @@ public class GraderThread extends Thread {
 
     public void grade() {
         try {
-            Long result = Files.mismatch(userOutputFile, outputFile);
+            long result = Files.mismatch(userOutputFile, outputFile);
             if (result == -1) {
                 submission.setIsPass(true);
             }
